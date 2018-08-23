@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="appcomidaEJB">
+		<class>appcomidaEJB.TabAdmTipoUsuario</class>
+		<class>appcomidaEJB.TabAdmUsuario</class>
+		<class>appcomidaEJB.TabParametro</class>
+		<class>appcomidaEJB.TabVtsCaja</class>
+		<class>appcomidaEJB.TabVtsCliente</class>
+		<class>appcomidaEJB.TabVtsCocina</class>
+		<class>appcomidaEJB.TabVtsDetalleFactura</class>
+		<class>appcomidaEJB.TabVtsDetallePedido</class>
+		<class>appcomidaEJB.TabVtsFactura</class>
+		<class>appcomidaEJB.TabVtsPedido</class>
+		<class>appcomidaEJB.TabVtsPlato</class>
+		<class>appcomidaEJB.TabVtsTipoPlato</class>
+		<class>appcomidaEJB.TabVtsTransaccion</class>
+	</persistence-unit>
+</persistence>
