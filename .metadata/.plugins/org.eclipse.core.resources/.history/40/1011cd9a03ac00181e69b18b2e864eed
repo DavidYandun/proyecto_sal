@@ -1,0 +1,58 @@
+package salycanela.model.manager;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import salycanela.model.entities.TabCpMedida;;
+
+/**
+ * Session Bean implementation class ManagerMedidas
+ */
+@Stateless
+@LocalBean
+public class ManagerMedidas {
+
+	@PersistenceContext(unitName = "restaurante_salycanelaDS")
+	private EntityManager em;
+
+	public ManagerMedidas() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public void agregarMedida(String cpnombremedida) throws Exception {
+		if (cpnombremedida == null || cpnombremedida.length() == 0)
+			throw new Exception("Debe especificar el nombre de la unidad de medida.");
+		TabCpMedida m = new TabCpMedida();
+		m.setCpnombremedida(cpnombremedida);
+		em.persist(m);
+	}
+
+	public TabCpMedida findMedidaById(String cpnombremedida) throws Exception {
+		TabCpMedida m= em.find(TabCpMedida.class, cpnombremedida);
+		return m;
+	}
+
+	public void editarMedida(String cpnombremedida,String reemplazo) throws Exception {
+		TabCpMedida m = findMedidaById(cpnombremedida);
+		if (m == null)
+			throw new Exception("No existe la medida especificada.");
+		m.setCpnombremedida(reemplazo);
+		em.merge(m);
+	}
+
+	public List<TabCpMedida> findAllMedidas() {
+		Query q;
+		List<TabCpMedida> listado;
+		String sentenciaSQL;
+		sentenciaSQL = "SELECT m FROM TabCpMedida m ORDER BY m.cpnombremedida";
+		q = em.createQuery(sentenciaSQL);
+		listado = q.getResultList();
+		return listado;
+	}
+}

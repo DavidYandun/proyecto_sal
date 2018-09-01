@@ -1,0 +1,47 @@
+package salycanela.controller;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import salycanela.model.entities.TabCpMedida;
+import salycanela.model.manager.ManagerMedidas;
+
+@ManagedBean
+@SessionScoped
+public class ControllerMedida {
+
+	private String cpnombremedida;
+	private List<TabCpMedida> lista;
+	@EJB
+	private ManagerMedidas managerMedidas;
+
+	@PostConstruct
+	public void iniciar() {
+		vaciarCampos();
+	}
+	
+	public void vaciarCampos() {
+		lista = managerMedidas.findAllMedidas();
+		cpnombremedida = null;
+	}
+
+	public String getCpnombremedida() {
+		return cpnombremedida;
+	}
+
+	public void setCpnombremedida(String cpnombremedida) {
+		this.cpnombremedida = cpnombremedida;
+	}
+
+	public List<TabCpMedida> getLista() {
+		return lista;
+	}
+
+	public void setLista(List<TabCpMedida> lista) {
+		this.lista = lista;
+	}
+	
+}

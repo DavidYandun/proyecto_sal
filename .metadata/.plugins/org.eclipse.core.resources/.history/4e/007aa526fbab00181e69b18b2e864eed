@@ -1,0 +1,95 @@
+package salycanela.model.entities;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
+
+
+/**
+ * The persistent class for the tab_cp_abonos database table.
+ * 
+ */
+@Entity
+@Table(name="tab_cp_abonos")
+@NamedQuery(name="TabCpAbono.findAll", query="SELECT t FROM TabCpAbono t")
+public class TabCpAbono implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@SequenceGenerator(name="TAB_CP_ABONOS_CPIDABONO_GENERATOR", sequenceName="TAB_CP_ABONOS_SEQ",allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TAB_CP_ABONOS_CPIDABONO_GENERATOR")
+	@Column(unique=true, nullable=false)
+	private Integer cpidabono;
+
+	@Temporal(TemporalType.DATE)
+	private Date cpfechaabono;
+
+	@Column(length=1000)
+	private String cpobservacionabono;
+
+	@Column(precision=10, scale=2)
+	private BigDecimal cpvalorabono;
+
+	//bi-directional many-to-one association to TabAdmUsuario
+	@ManyToOne
+	@JoinColumn(name="idusuario")
+	private TabAdmUsuario tabAdmUsuario;
+
+	//bi-directional many-to-one association to TabCpSaldo
+	@ManyToOne
+	@JoinColumn(name="cpidsaldo")
+	private TabCpSaldo tabCpSaldo;
+
+	public TabCpAbono() {
+	}
+
+	public Integer getCpidabono() {
+		return this.cpidabono;
+	}
+
+	public void setCpidabono(Integer cpidabono) {
+		this.cpidabono = cpidabono;
+	}
+
+	public Date getCpfechaabono() {
+		return this.cpfechaabono;
+	}
+
+	public void setCpfechaabono(Date cpfechaabono) {
+		this.cpfechaabono = cpfechaabono;
+	}
+
+	public String getCpobservacionabono() {
+		return this.cpobservacionabono;
+	}
+
+	public void setCpobservacionabono(String cpobservacionabono) {
+		this.cpobservacionabono = cpobservacionabono;
+	}
+
+	public BigDecimal getCpvalorabono() {
+		return this.cpvalorabono;
+	}
+
+	public void setCpvalorabono(BigDecimal cpvalorabono) {
+		this.cpvalorabono = cpvalorabono;
+	}
+
+	public TabAdmUsuario getTabAdmUsuario() {
+		return this.tabAdmUsuario;
+	}
+
+	public void setTabAdmUsuario(TabAdmUsuario tabAdmUsuario) {
+		this.tabAdmUsuario = tabAdmUsuario;
+	}
+
+	public TabCpSaldo getTabCpSaldo() {
+		return this.tabCpSaldo;
+	}
+
+	public void setTabCpSaldo(TabCpSaldo tabCpSaldo) {
+		this.tabCpSaldo = tabCpSaldo;
+	}
+
+}

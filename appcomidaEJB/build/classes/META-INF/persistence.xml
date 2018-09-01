@@ -4,6 +4,15 @@
 		<jta-data-source>java:/restaurante_salycanelaDS</jta-data-source>
 		<class>salycanela.model.entities.TabAdmTipoUsuario</class>
 		<class>salycanela.model.entities.TabAdmUsuario</class>
+		<class>salycanela.model.entities.TabCpAbono</class>
+		<class>salycanela.model.entities.TabCpDetalleFacturasProveed</class>
+		<class>salycanela.model.entities.TabCpFacturasProveedore</class>
+		<class>salycanela.model.entities.TabCpModosPago</class>
+		<class>salycanela.model.entities.TabCpProveedore</class>
+		<class>salycanela.model.entities.TabCpSaldo</class>
+		<class>salycanela.model.entities.TabInvCategoriaProducto</class>
+		<class>salycanela.model.entities.TabInvMedida</class>
+		<class>salycanela.model.entities.TabInvProducto</class>
 		<class>salycanela.model.entities.TabParametro</class>
 		<class>salycanela.model.entities.TabVtsCaja</class>
 		<class>salycanela.model.entities.TabVtsCliente</class>

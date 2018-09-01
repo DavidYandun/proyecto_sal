@@ -1,0 +1,18 @@
+package salycanela.controller;
+
+import java.util.List;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import salycanela.model.entities.TabCpMedida;
+import salycanela.model.manager.ManagerMedidas;
+
+@ManagedBean
+@SessionScoped
+public class ControllerMedida {
+
+	private String cpnombremedida;
+	private List<TabCpMedida> lista;
+	@EJB
+	private ManagerMedidas managerMedidas;
+}

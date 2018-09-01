@@ -1,0 +1,211 @@
+package salycanela.model.entities;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
+
+/**
+ * The persistent class for the tab_cp_facturas_proveedores database table.
+ * 
+ */
+@Entity
+@Table(name="tab_cp_facturas_proveedores")
+@NamedQuery(name="TabCpFacturasProveedore.findAll", query="SELECT t FROM TabCpFacturasProveedore t")
+public class TabCpFacturasProveedore implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(unique=true, nullable=false, length=50)
+	private String cpidfacturaprov;
+
+	@Column(precision=10, scale=2)
+	private BigDecimal cpdescuentofacturaprov;
+
+	private Boolean cpestadofacturaprov;
+
+	@Temporal(TemporalType.DATE)
+	private Date cpfechacaducidadfacprov;
+
+	@Temporal(TemporalType.DATE)
+	private Date cpfechaemisionfacturaprov;
+
+	@Column(precision=10, scale=2)
+	private BigDecimal cpivafacturaprov;
+
+	@Column(length=1000)
+	private String cpobservacionesfacturaprov;
+
+	@Column(precision=10, scale=2)
+	private BigDecimal cpsubtotal0facturaprov;
+
+	@Column(precision=10, scale=2)
+	private BigDecimal cpsubtotal12facturaprov;
+
+	@Column(precision=10, scale=2)
+	private BigDecimal cptotalfacturaprov;
+
+	//bi-directional many-to-one association to TabCpDetalleFacturasProveed
+	@OneToMany(mappedBy="tabCpFacturasProveedore")
+	private List<TabCpDetalleFacturasProveed> tabCpDetalleFacturasProveeds;
+
+	//bi-directional many-to-one association to TabCpModosPago
+	@ManyToOne
+	@JoinColumn(name="cpidmodopago")
+	private TabCpModosPago tabCpModosPago;
+
+	//bi-directional many-to-one association to TabCpProveedore
+	@ManyToOne
+	@JoinColumn(name="cpidproveedor")
+	private TabCpProveedore tabCpProveedore;
+
+	//bi-directional many-to-one association to TabCpSaldo
+	@OneToMany(mappedBy="tabCpFacturasProveedore")
+	private List<TabCpSaldo> tabCpSaldos;
+
+	public TabCpFacturasProveedore() {
+	}
+
+	public String getCpidfacturaprov() {
+		return this.cpidfacturaprov;
+	}
+
+	public void setCpidfacturaprov(String cpidfacturaprov) {
+		this.cpidfacturaprov = cpidfacturaprov;
+	}
+
+	public BigDecimal getCpdescuentofacturaprov() {
+		return this.cpdescuentofacturaprov;
+	}
+
+	public void setCpdescuentofacturaprov(BigDecimal cpdescuentofacturaprov) {
+		this.cpdescuentofacturaprov = cpdescuentofacturaprov;
+	}
+
+	public Boolean getCpestadofacturaprov() {
+		return this.cpestadofacturaprov;
+	}
+
+	public void setCpestadofacturaprov(Boolean cpestadofacturaprov) {
+		this.cpestadofacturaprov = cpestadofacturaprov;
+	}
+
+	public Date getCpfechacaducidadfacprov() {
+		return this.cpfechacaducidadfacprov;
+	}
+
+	public void setCpfechacaducidadfacprov(Date cpfechacaducidadfacprov) {
+		this.cpfechacaducidadfacprov = cpfechacaducidadfacprov;
+	}
+
+	public Date getCpfechaemisionfacturaprov() {
+		return this.cpfechaemisionfacturaprov;
+	}
+
+	public void setCpfechaemisionfacturaprov(Date cpfechaemisionfacturaprov) {
+		this.cpfechaemisionfacturaprov = cpfechaemisionfacturaprov;
+	}
+
+	public BigDecimal getCpivafacturaprov() {
+		return this.cpivafacturaprov;
+	}
+
+	public void setCpivafacturaprov(BigDecimal cpivafacturaprov) {
+		this.cpivafacturaprov = cpivafacturaprov;
+	}
+
+	public String getCpobservacionesfacturaprov() {
+		return this.cpobservacionesfacturaprov;
+	}
+
+	public void setCpobservacionesfacturaprov(String cpobservacionesfacturaprov) {
+		this.cpobservacionesfacturaprov = cpobservacionesfacturaprov;
+	}
+
+	public BigDecimal getCpsubtotal0facturaprov() {
+		return this.cpsubtotal0facturaprov;
+	}
+
+	public void setCpsubtotal0facturaprov(BigDecimal cpsubtotal0facturaprov) {
+		this.cpsubtotal0facturaprov = cpsubtotal0facturaprov;
+	}
+
+	public BigDecimal getCpsubtotal12facturaprov() {
+		return this.cpsubtotal12facturaprov;
+	}
+
+	public void setCpsubtotal12facturaprov(BigDecimal cpsubtotal12facturaprov) {
+		this.cpsubtotal12facturaprov = cpsubtotal12facturaprov;
+	}
+
+	public BigDecimal getCptotalfacturaprov() {
+		return this.cptotalfacturaprov;
+	}
+
+	public void setCptotalfacturaprov(BigDecimal cptotalfacturaprov) {
+		this.cptotalfacturaprov = cptotalfacturaprov;
+	}
+
+	public List<TabCpDetalleFacturasProveed> getTabCpDetalleFacturasProveeds() {
+		return this.tabCpDetalleFacturasProveeds;
+	}
+
+	public void setTabCpDetalleFacturasProveeds(List<TabCpDetalleFacturasProveed> tabCpDetalleFacturasProveeds) {
+		this.tabCpDetalleFacturasProveeds = tabCpDetalleFacturasProveeds;
+	}
+
+	public TabCpDetalleFacturasProveed addTabCpDetalleFacturasProveed(TabCpDetalleFacturasProveed tabCpDetalleFacturasProveed) {
+		getTabCpDetalleFacturasProveeds().add(tabCpDetalleFacturasProveed);
+		tabCpDetalleFacturasProveed.setTabCpFacturasProveedore(this);
+
+		return tabCpDetalleFacturasProveed;
+	}
+
+	public TabCpDetalleFacturasProveed removeTabCpDetalleFacturasProveed(TabCpDetalleFacturasProveed tabCpDetalleFacturasProveed) {
+		getTabCpDetalleFacturasProveeds().remove(tabCpDetalleFacturasProveed);
+		tabCpDetalleFacturasProveed.setTabCpFacturasProveedore(null);
+
+		return tabCpDetalleFacturasProveed;
+	}
+
+	public TabCpModosPago getTabCpModosPago() {
+		return this.tabCpModosPago;
+	}
+
+	public void setTabCpModosPago(TabCpModosPago tabCpModosPago) {
+		this.tabCpModosPago = tabCpModosPago;
+	}
+
+	public TabCpProveedore getTabCpProveedore() {
+		return this.tabCpProveedore;
+	}
+
+	public void setTabCpProveedore(TabCpProveedore tabCpProveedore) {
+		this.tabCpProveedore = tabCpProveedore;
+	}
+
+	public List<TabCpSaldo> getTabCpSaldos() {
+		return this.tabCpSaldos;
+	}
+
+	public void setTabCpSaldos(List<TabCpSaldo> tabCpSaldos) {
+		this.tabCpSaldos = tabCpSaldos;
+	}
+
+	public TabCpSaldo addTabCpSaldo(TabCpSaldo tabCpSaldo) {
+		getTabCpSaldos().add(tabCpSaldo);
+		tabCpSaldo.setTabCpFacturasProveedore(this);
+
+		return tabCpSaldo;
+	}
+
+	public TabCpSaldo removeTabCpSaldo(TabCpSaldo tabCpSaldo) {
+		getTabCpSaldos().remove(tabCpSaldo);
+		tabCpSaldo.setTabCpFacturasProveedore(null);
+
+		return tabCpSaldo;
+	}
+
+}

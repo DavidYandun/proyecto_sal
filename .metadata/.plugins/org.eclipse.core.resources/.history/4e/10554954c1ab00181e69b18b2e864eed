@@ -1,0 +1,18 @@
+package salycanela.controller;
+
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+import salycanela.model.manager.ManagerProveedores;;
+
+@ManagedBean
+@SessionScoped
+public class ControllerProovedor {
+
+	private String cpidproveedor, cpnombreproveedor, cptelefonoproveedor, cpcelularproveedor, cpdireccionproveedor,
+			cpcorreoproveedor, cpresponsableproveedor;
+	private Boolean cpestadoproveedor;
+	@EJB
+	private ManagerProveedores managerProveedor;
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+
+<h:head></h:head>
+<body>
+	<ui:composition template="../template.xhtml">
+		<ui:define name="title">
+			<title>Proveedores</title>
+		</ui:define>
+		<ui:define name="content">
+			<p:growl autoUpdate="true"></p:growl>
+			<p:breadCrumb style="font-size:x-small">
+				<p:menuitem value="Administrador" url="../template.xhtml" />
+				<p:menuitem value="Administrador" url="../template.xhtml" />
+				<p:menuitem value="Proveedores" url="#" />
+			</p:breadCrumb>
+			<h:panelGrid columns="2">
+				<p:dialog header="Nuevo Proveedor" widgetVar="dialogo2"
+					id="dialogo2" modal="true" hideEffect="fade">
+					<h:form id="form1" style="font-size:small">
+						<p:panelGrid columns="2">
+							<h:outputText value="CI/RUC Proveedor:" />
+							<p:inputText value="#{controllerProovedor.cpidproveedor}"
+								required="true" requiredMessage="Especifique una ID" />
+							<h:outputText value="Nombre Proveedor:" />
+							<p:inputText value="#{controllerProovedor.cpnombreproveedor}"
+								required="true" requiredMessage="Especifique el nombre" />
+							<h:outputText value="Teléfono Proveedor:" />
+							<p:inputText value="#{controllerProovedor.cptelefonoproveedor}"
+								required="true" requiredMessage="Especifique el teléfono" />
+							<h:outputText value="Persona Responsable del Proveedor:" />
+							<p:inputText
+								value="#{controllerProovedor.cpresponsableproveedor}"
+								required="true" requiredMessage="Especifique el celular" />
+							<h:outputText value="Celular Proveedor:" />
+							<p:inputText value="#{controllerProovedor.cpcelularproveedor}"
+								required="true" requiredMessage="Especifique el celular" />
+							<h:outputText value="Dirección Proveedor:" />
+							<p:inputText value="#{controllerProovedor.cpdireccionproveedor}"
+								required="true" requiredMessage="Especifique la dirección" />
+							<h:outputText value="Correo Proveedor:" />
+							<p:inputText value="#{controllerProovedor.cpcorreoproveedor}"
+								required="true" requiredMessage="Especifique el correo" />
+						</p:panelGrid>
+						<p:commandButton value="Agregar" update="@form,:form2:tabla1"
+							actionListener="#{controllerProovedor.AgregarProveedor()}"
+							onclick="PF('modal').hide();$('#form1').trigger('reset');"></p:commandButton>
+					</h:form>
+				</p:dialog>
+
+				<h:form id="form2" style="font-size:small">
+					<p:panel header="LISTA DE REGISTROS">
+						<p:dataTable value="#{controllerProovedor.lista}" var="p"
+							id="tabla1">
+							<p:column headerText="CEDULA/RUC">
+								<h:outputText value="#{p.cpidproveedor}" />
+							</p:column>
+							<p:column headerText="Proveedor">
+								<h:outputText value="#{p.cpnombreproveedor}" />
+							</p:column>
+							<p:column headerText="EDITAR">
+								<p:commandButton icon="ui-icon-pencil" update="form4"
+									onclick="PF('dialogo1').show();"
+									actionListener="#{controllerProovedor.CargarProveedor(p)}"></p:commandButton>
+							</p:column>
+						</p:dataTable>
+						<f:facet name="actions">
+
+							<p:commandButton icon="ui-icon-pencil" value="Nuevo"
+								update="form1" onclick="PF('dialogo2').show();"
+								style="float:right;" />
+						</f:facet>
+					</p:panel>
+				</h:form>
+			</h:panelGrid>
+
+			<p:dialog header="Edición del Proveedor" widgetVar="dialogo1"
+				id="dialogo1" modal="true" hideEffect="fade">
+				<h:form id="form4" style="font-size:small">
+					<p:panelGrid columns="2">
+						<h:outputText value="CI/RUC Proveedor:" />
+						<p:inputText value="#{controllerProovedor.cpidproveedor}"
+							required="true" requiredMessage="Especifique una ID" />
+						<h:outputText value="Nombre Proveedor:" />
+						<p:inputText value="#{controllerProovedor.cpnombreproveedor}"
+							required="true" requiredMessage="Especifique el nombre" />
+						<h:outputText value="Teléfono Proveedor:" />
+						<p:inputText value="#{controllerProovedor.cptelefonoproveedor}"
+							required="true" requiredMessage="Especifique el teléfono" />
+						<h:outputText value="Persona Responsable del Proveedor:" />
+						<p:inputText value="#{controllerProovedor.cpresponsableproveedor}"
+							required="true" requiredMessage="Especifique el celular" />
+						<h:outputText value="Celular Proveedor:" />
+						<p:inputText value="#{controllerProovedor.cpcelularproveedor}"
+							required="true" requiredMessage="Especifique el celular" />
+						<h:outputText value="Dirección Proveedor:" />
+						<p:inputText value="#{controllerProovedor.cpdireccionproveedor}"
+							required="true" requiredMessage="Especifique la dirección" />
+						<h:outputText value="Correo Proveedor:" />
+						<p:inputText value="#{controllerProovedor.cpcorreoproveedor}"
+							required="true" requiredMessage="Especifique el correo" />
+					</p:panelGrid>
+					<p:commandButton value="Actualizar" update="@form,:form2:tabla1"
+						actionListener="#{controllerCaja.EditarCaja()}"
+						onclick="PF('modal').hide();$('#form4').trigger('reset');"></p:commandButton>
+				</h:form>
+			</p:dialog>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

@@ -1,0 +1,59 @@
+package salycanela.model.entities;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.List;
+
+
+/**
+ * The persistent class for the tab_cp_medidas database table.
+ * 
+ */
+@Entity
+@Table(name="tab_cp_medidas")
+@NamedQuery(name="TabCpMedida.findAll", query="SELECT t FROM TabCpMedida t")
+public class TabCpMedida implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(unique=true, nullable=false, length=50)
+	private String cpnombremedida;
+
+	//bi-directional many-to-one association to TabCpDetalleFacturasProveed
+	@OneToMany(mappedBy="tabCpMedida")
+	private List<TabCpDetalleFacturasProveed> tabCpDetalleFacturasProveeds;
+
+	public TabCpMedida() {
+	}
+
+	public String getCpnombremedida() {
+		return this.cpnombremedida;
+	}
+
+	public void setCpnombremedida(String cpnombremedida) {
+		this.cpnombremedida = cpnombremedida;
+	}
+
+	public List<TabCpDetalleFacturasProveed> getTabCpDetalleFacturasProveeds() {
+		return this.tabCpDetalleFacturasProveeds;
+	}
+
+	public void setTabCpDetalleFacturasProveeds(List<TabCpDetalleFacturasProveed> tabCpDetalleFacturasProveeds) {
+		this.tabCpDetalleFacturasProveeds = tabCpDetalleFacturasProveeds;
+	}
+
+	public TabCpDetalleFacturasProveed addTabCpDetalleFacturasProveed(TabCpDetalleFacturasProveed tabCpDetalleFacturasProveed) {
+		getTabCpDetalleFacturasProveeds().add(tabCpDetalleFacturasProveed);
+		tabCpDetalleFacturasProveed.setTabCpMedida(this);
+
+		return tabCpDetalleFacturasProveed;
+	}
+
+	public TabCpDetalleFacturasProveed removeTabCpDetalleFacturasProveed(TabCpDetalleFacturasProveed tabCpDetalleFacturasProveed) {
+		getTabCpDetalleFacturasProveeds().remove(tabCpDetalleFacturasProveed);
+		tabCpDetalleFacturasProveed.setTabCpMedida(null);
+
+		return tabCpDetalleFacturasProveed;
+	}
+
+}

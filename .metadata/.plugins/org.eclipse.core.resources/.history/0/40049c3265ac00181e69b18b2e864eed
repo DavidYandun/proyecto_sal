@@ -1,0 +1,97 @@
+package salycanela.model.entities;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.List;
+
+
+/**
+ * The persistent class for the tab_cp_saldos database table.
+ * 
+ */
+@Entity
+@Table(name="tab_cp_saldos")
+@NamedQuery(name="TabCpSaldo.findAll", query="SELECT t FROM TabCpSaldo t")
+public class TabCpSaldo implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@SequenceGenerator(name="TAB_CP_SALDOS_CPIDSALDO_GENERATOR", sequenceName="TAB_CP_SALDOS_SEQ",allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TAB_CP_SALDOS_CPIDSALDO_GENERATOR")
+	@Column(unique=true, nullable=false)
+	private Integer cpidsaldo;
+
+	@Column(precision=10, scale=2)
+	private BigDecimal cptotalabonado;
+
+	@Column(precision=10, scale=2)
+	private BigDecimal cptotalsaldo;
+
+	//bi-directional many-to-one association to TabCpAbono
+	@OneToMany(mappedBy="tabCpSaldo",cascade=CascadeType.ALL)
+	private List<TabCpAbono> tabCpAbonos;
+
+	//bi-directional many-to-one association to TabCpFacturasProveedore
+	@ManyToOne
+	@JoinColumn(name="cpidfacturaprov")
+	private TabCpFacturasProveedore tabCpFacturasProveedore;
+
+	public TabCpSaldo() {
+	}
+
+	public Integer getCpidsaldo() {
+		return this.cpidsaldo;
+	}
+
+	public void setCpidsaldo(Integer cpidsaldo) {
+		this.cpidsaldo = cpidsaldo;
+	}
+
+	public BigDecimal getCptotalabonado() {
+		return this.cptotalabonado;
+	}
+
+	public void setCptotalabonado(BigDecimal cptotalabonado) {
+		this.cptotalabonado = cptotalabonado;
+	}
+
+	public BigDecimal getCptotalsaldo() {
+		return this.cptotalsaldo;
+	}
+
+	public void setCptotalsaldo(BigDecimal cptotalsaldo) {
+		this.cptotalsaldo = cptotalsaldo;
+	}
+
+	public List<TabCpAbono> getTabCpAbonos() {
+		return this.tabCpAbonos;
+	}
+
+	public void setTabCpAbonos(List<TabCpAbono> tabCpAbonos) {
+		this.tabCpAbonos = tabCpAbonos;
+	}
+
+	public TabCpAbono addTabCpAbono(TabCpAbono tabCpAbono) {
+		getTabCpAbonos().add(tabCpAbono);
+		tabCpAbono.setTabCpSaldo(this);
+
+		return tabCpAbono;
+	}
+
+	public TabCpAbono removeTabCpAbono(TabCpAbono tabCpAbono) {
+		getTabCpAbonos().remove(tabCpAbono);
+		tabCpAbono.setTabCpSaldo(null);
+
+		return tabCpAbono;
+	}
+
+	public TabCpFacturasProveedore getTabCpFacturasProveedore() {
+		return this.tabCpFacturasProveedore;
+	}
+
+	public void setTabCpFacturasProveedore(TabCpFacturasProveedore tabCpFacturasProveedore) {
+		this.tabCpFacturasProveedore = tabCpFacturasProveedore;
+	}
+
+}

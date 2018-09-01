@@ -1,0 +1,126 @@
+package salycanela.model.entities;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.math.BigDecimal;
+
+
+/**
+ * The persistent class for the tab_cp_detalle_facturas_proveed database table.
+ * 
+ */
+@Entity
+@Table(name="tab_cp_detalle_facturas_proveed")
+@NamedQuery(name="TabCpDetalleFacturasProveed.findAll", query="SELECT t FROM TabCpDetalleFacturasProveed t")
+public class TabCpDetalleFacturasProveed implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@SequenceGenerator(name="TAB_CP_DETALLE_FACTURAS_PROVEED_CPIDDETALLEFACPROV_GENERATOR", sequenceName="TAB_CP_DETALLE_FACTURAS_PROVEED_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TAB_CP_DETALLE_FACTURAS_PROVEED_CPIDDETALLEFACPROV_GENERATOR")
+	@Column(unique=true, nullable=false)
+	private Integer cpiddetallefacprov;
+
+	private Integer cpcantidaddetallefacprov;
+
+	@Column(length=500)
+	private String cpdescripcionfacprov;
+
+	@Column(precision=10, scale=2)
+	private BigDecimal cpdescuentodetallefacprov;
+
+	@Column(precision=10, scale=2)
+	private BigDecimal cpivadetallefacprov;
+
+	@Column(precision=10, scale=2)
+	private BigDecimal cptotaldetallefacprov;
+
+	@Column(precision=10, scale=2)
+	private BigDecimal cpunitariodetallefacprov;
+
+	//bi-directional many-to-one association to TabCpFacturasProveedore
+	@ManyToOne
+	@JoinColumn(name="cpidfacturaprov")
+	private TabCpFacturasProveedore tabCpFacturasProveedore;
+
+	//bi-directional many-to-one association to TabCpMedida
+	@ManyToOne
+	@JoinColumn(name="cpidmedida")
+	private TabCpMedida tabCpMedida;
+
+	public TabCpDetalleFacturasProveed() {
+	}
+
+	public Integer getCpiddetallefacprov() {
+		return this.cpiddetallefacprov;
+	}
+
+	public void setCpiddetallefacprov(Integer cpiddetallefacprov) {
+		this.cpiddetallefacprov = cpiddetallefacprov;
+	}
+
+	public Integer getCpcantidaddetallefacprov() {
+		return this.cpcantidaddetallefacprov;
+	}
+
+	public void setCpcantidaddetallefacprov(Integer cpcantidaddetallefacprov) {
+		this.cpcantidaddetallefacprov = cpcantidaddetallefacprov;
+	}
+
+	public String getCpdescripcionfacprov() {
+		return this.cpdescripcionfacprov;
+	}
+
+	public void setCpdescripcionfacprov(String cpdescripcionfacprov) {
+		this.cpdescripcionfacprov = cpdescripcionfacprov;
+	}
+
+	public BigDecimal getCpdescuentodetallefacprov() {
+		return this.cpdescuentodetallefacprov;
+	}
+
+	public void setCpdescuentodetallefacprov(BigDecimal cpdescuentodetallefacprov) {
+		this.cpdescuentodetallefacprov = cpdescuentodetallefacprov;
+	}
+
+	public BigDecimal getCpivadetallefacprov() {
+		return this.cpivadetallefacprov;
+	}
+
+	public void setCpivadetallefacprov(BigDecimal cpivadetallefacprov) {
+		this.cpivadetallefacprov = cpivadetallefacprov;
+	}
+
+	public BigDecimal getCptotaldetallefacprov() {
+		return this.cptotaldetallefacprov;
+	}
+
+	public void setCptotaldetallefacprov(BigDecimal cptotaldetallefacprov) {
+		this.cptotaldetallefacprov = cptotaldetallefacprov;
+	}
+
+	public BigDecimal getCpunitariodetallefacprov() {
+		return this.cpunitariodetallefacprov;
+	}
+
+	public void setCpunitariodetallefacprov(BigDecimal cpunitariodetallefacprov) {
+		this.cpunitariodetallefacprov = cpunitariodetallefacprov;
+	}
+
+	public TabCpFacturasProveedore getTabCpFacturasProveedore() {
+		return this.tabCpFacturasProveedore;
+	}
+
+	public void setTabCpFacturasProveedore(TabCpFacturasProveedore tabCpFacturasProveedore) {
+		this.tabCpFacturasProveedore = tabCpFacturasProveedore;
+	}
+
+	public TabCpMedida getTabCpMedida() {
+		return this.tabCpMedida;
+	}
+
+	public void setTabCpMedida(TabCpMedida tabCpMedida) {
+		this.tabCpMedida = tabCpMedida;
+	}
+
+}

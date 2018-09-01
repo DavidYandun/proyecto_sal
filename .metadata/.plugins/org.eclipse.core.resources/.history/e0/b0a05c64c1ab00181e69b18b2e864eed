@@ -1,0 +1,35 @@
+package salycanela.controller;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+import salycanela.model.manager.ManagerProveedores;;
+
+@ManagedBean
+@SessionScoped
+public class ControllerProovedor {
+
+	private String cpidproveedor, cpnombreproveedor, cptelefonoproveedor, cpcelularproveedor, cpdireccionproveedor,
+			cpcorreoproveedor, cpresponsableproveedor;
+	private Boolean cpestadoproveedor;
+	@EJB
+	private ManagerProveedores managerProveedor;
+	
+	@PostConstruct
+	public void iniciar() {
+		vaciarCampos();
+	}
+	
+	public void vaciarCampos() {
+		cpidproveedor=null;
+		cpnombreproveedor=null;
+		cptelefonoproveedor=null;
+		cpcelularproveedor=null;
+		cpdireccionproveedor =null;
+		cpcorreoproveedor=null;
+		cpresponsableproveedor=null;
+		cpestadoproveedor=null;	
+	}
+}

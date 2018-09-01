@@ -1,0 +1,92 @@
+package salycanela.model.manager;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import salycanela.model.entities.TabCpFacturasProveedore;
+import salycanela.model.entities.TabCpModosPago;
+import salycanela.model.entities.TabCpProveedore;
+
+@Stateless
+@LocalBean
+public class ManagerFacturasProveedor {
+
+	@PersistenceContext(unitName = "restaurante_salycanelaDS")
+	private EntityManager em;
+
+	public ManagerFacturasProveedor() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public TabCpFacturasProveedore crearFacturaTmp(String cpidfacturaprov, String cpidproveedor, Integer cpidmodopago,
+			Date cpfechaemisionfacturaprov, Date cpfechacaducidadfacprov, String cpobservacionesfacturaprov) {
+		TabCpFacturasProveedore facturaTmp = new TabCpFacturasProveedore();
+		
+		TabCpProveedore proveedor = em.find(TabCpProveedore.class, cpidproveedor);
+		TabCpModosPago pago=em.find(TabCpModosPago.class, cpidmodopago);
+		facturaTmp.setCpidfacturaprov(cpidfacturaprov);
+		facturaTmp.setTabCpProveedore(proveedor);
+		facturaTmp.setTabCpModosPago(pago);
+		facturaTmp.setCpfechaemisionfacturaprov(cpfechaemisionfacturaprov);
+		facturaTmp.setCpfechacaducidadfacprov(cpfechacaducidadfacprov);
+		facturaTmp.setCpobservacionesfacturaprov(cpobservacionesfacturaprov);
+		
+
+		pedidoTmp.setTabVtsDetallePedidos(new ArrayList<TabVtsDetallePedido>());
+		transaccionTmp.getTabVtsPedidos().add(pedidoTmp);
+		return pedidoTmp;
+	}
+
+	public void agregarDetallePedidoTmp(TabVtsPedido pedidoTmp, Integer idplato, Integer cantidad, boolean segundo,
+			boolean llevar, boolean tarjeta) throws Exception {
+		double valorTotal = 0;
+		double precio = 0;
+		// sentencias de error de ingreso
+		if (pedidoTmp == null)
+			throw new Exception("Error primero debe crear un nuevo Pedido.");
+		if (idplato == null || idplato.intValue() < 0)
+			throw new Exception("Error debe especificar el codigo del plato.");
+		if (cantidad == null || cantidad.intValue() <= 0)
+			throw new Exception("Error debe especificar la cantidad del producto.");
+
+		// buscamos el plato:
+		TabVtsPlato p = em.find(TabVtsPlato.class, idplato);
+		// creamos un nuevo detalle y llenamos sus propiedades:
+		TabVtsDetallePedido d = new TabVtsDetallePedido();
+		d.setIddp(iddetalleTempo);
+		d.setTabVtsPedido(pedidoTmp);
+		d.setTabVtsPlato(p);
+		d.setCantidaddp(cantidad);
+		d.setSegundo(segundo);
+		d.setLlevar(llevar);
+		d.setTarjeta(tarjeta);
+
+		if (!tarjeta) {
+			if (segundo) {
+				precio = p.getPrecioespecialplato().doubleValue();
+			} else {
+				precio = p.getPrecioplato().doubleValue();
+			}
+			if (llevar)
+				precio = precio + 0.25;
+		}
+
+		valorTotal = cantidad * precio;
+		d.setValorunitariodp(new BigDecimal(precio));
+		d.setValortotaldp(new BigDecimal(valorTotal));
+
+		pedidoTmp.getTabVtsDetallePedidos().add(d);
+		// verificamos los campos calculados:
+
+		calcularPedidoTmp(pedidoTmp);
+		iddetalleTempo++;
+		// throw new Exception("ID: " + iddetalleTempo);
+	}
+
+}

@@ -1,0 +1,72 @@
+package salycanela.model.entities;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.List;
+
+
+/**
+ * The persistent class for the tab_cp_modos_pagos database table.
+ * 
+ */
+@Entity
+@Table(name="tab_cp_modos_pagos")
+@NamedQuery(name="TabCpModosPago.findAll", query="SELECT t FROM TabCpModosPago t")
+public class TabCpModosPago implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@SequenceGenerator(name="TAB_CP_MODOS_PAGOS_CPIDMODOPAGO_GENERATOR", sequenceName="TAB_CP_MODOS_PAGOS_SEQ",allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TAB_CP_MODOS_PAGOS_CPIDMODOPAGO_GENERATOR")
+	@Column(unique=true, nullable=false)
+	private Integer cpidmodopago;
+
+	@Column(length=50)
+	private String cpnombremodopago;
+
+	//bi-directional many-to-one association to TabCpFacturasProveedore
+	@OneToMany(mappedBy="tabCpModosPago")
+	private List<TabCpFacturasProveedore> tabCpFacturasProveedores;
+
+	public TabCpModosPago() {
+	}
+
+	public Integer getCpidmodopago() {
+		return this.cpidmodopago;
+	}
+
+	public void setCpidmodopago(Integer cpidmodopago) {
+		this.cpidmodopago = cpidmodopago;
+	}
+
+	public String getCpnombremodopago() {
+		return this.cpnombremodopago;
+	}
+
+	public void setCpnombremodopago(String cpnombremodopago) {
+		this.cpnombremodopago = cpnombremodopago;
+	}
+
+	public List<TabCpFacturasProveedore> getTabCpFacturasProveedores() {
+		return this.tabCpFacturasProveedores;
+	}
+
+	public void setTabCpFacturasProveedores(List<TabCpFacturasProveedore> tabCpFacturasProveedores) {
+		this.tabCpFacturasProveedores = tabCpFacturasProveedores;
+	}
+
+	public TabCpFacturasProveedore addTabCpFacturasProveedore(TabCpFacturasProveedore tabCpFacturasProveedore) {
+		getTabCpFacturasProveedores().add(tabCpFacturasProveedore);
+		tabCpFacturasProveedore.setTabCpModosPago(this);
+
+		return tabCpFacturasProveedore;
+	}
+
+	public TabCpFacturasProveedore removeTabCpFacturasProveedore(TabCpFacturasProveedore tabCpFacturasProveedore) {
+		getTabCpFacturasProveedores().remove(tabCpFacturasProveedore);
+		tabCpFacturasProveedore.setTabCpModosPago(null);
+
+		return tabCpFacturasProveedore;
+	}
+
+}

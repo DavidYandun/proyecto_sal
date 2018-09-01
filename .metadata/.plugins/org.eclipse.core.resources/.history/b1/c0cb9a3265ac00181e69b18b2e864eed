@@ -1,0 +1,135 @@
+package salycanela.model.entities;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.List;
+
+
+/**
+ * The persistent class for the tab_cp_proveedores database table.
+ * 
+ */
+@Entity
+@Table(name="tab_cp_proveedores")
+@NamedQuery(name="TabCpProveedore.findAll", query="SELECT t FROM TabCpProveedore t")
+public class TabCpProveedore implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(unique=true, nullable=false, length=50)
+	private String cpidproveedor;
+
+	@Column(length=20)
+	private String cpcelularproveedor;
+
+	@Column(length=100)
+	private String cpcorreoproveedor;
+
+	@Column(length=200)
+	private String cpdireccionproveedor;
+
+	private Boolean cpestadoproveedor;
+
+	@Column(length=100)
+	private String cpnombreproveedor;
+
+	@Column(length=100)
+	private String cpresponsableproveedor;
+
+	@Column(length=20)
+	private String cptelefonoproveedor;
+
+	//bi-directional many-to-one association to TabCpFacturasProveedore
+	@OneToMany(mappedBy="tabCpProveedore")
+	private List<TabCpFacturasProveedore> tabCpFacturasProveedores;
+
+	public TabCpProveedore() {
+	}
+
+	public String getCpidproveedor() {
+		return this.cpidproveedor;
+	}
+
+	public void setCpidproveedor(String cpidproveedor) {
+		this.cpidproveedor = cpidproveedor;
+	}
+
+	public String getCpcelularproveedor() {
+		return this.cpcelularproveedor;
+	}
+
+	public void setCpcelularproveedor(String cpcelularproveedor) {
+		this.cpcelularproveedor = cpcelularproveedor;
+	}
+
+	public String getCpcorreoproveedor() {
+		return this.cpcorreoproveedor;
+	}
+
+	public void setCpcorreoproveedor(String cpcorreoproveedor) {
+		this.cpcorreoproveedor = cpcorreoproveedor;
+	}
+
+	public String getCpdireccionproveedor() {
+		return this.cpdireccionproveedor;
+	}
+
+	public void setCpdireccionproveedor(String cpdireccionproveedor) {
+		this.cpdireccionproveedor = cpdireccionproveedor;
+	}
+
+	public Boolean getCpestadoproveedor() {
+		return this.cpestadoproveedor;
+	}
+
+	public void setCpestadoproveedor(Boolean cpestadoproveedor) {
+		this.cpestadoproveedor = cpestadoproveedor;
+	}
+
+	public String getCpnombreproveedor() {
+		return this.cpnombreproveedor;
+	}
+
+	public void setCpnombreproveedor(String cpnombreproveedor) {
+		this.cpnombreproveedor = cpnombreproveedor;
+	}
+
+	public String getCpresponsableproveedor() {
+		return this.cpresponsableproveedor;
+	}
+
+	public void setCpresponsableproveedor(String cpresponsableproveedor) {
+		this.cpresponsableproveedor = cpresponsableproveedor;
+	}
+
+	public String getCptelefonoproveedor() {
+		return this.cptelefonoproveedor;
+	}
+
+	public void setCptelefonoproveedor(String cptelefonoproveedor) {
+		this.cptelefonoproveedor = cptelefonoproveedor;
+	}
+
+	public List<TabCpFacturasProveedore> getTabCpFacturasProveedores() {
+		return this.tabCpFacturasProveedores;
+	}
+
+	public void setTabCpFacturasProveedores(List<TabCpFacturasProveedore> tabCpFacturasProveedores) {
+		this.tabCpFacturasProveedores = tabCpFacturasProveedores;
+	}
+
+	public TabCpFacturasProveedore addTabCpFacturasProveedore(TabCpFacturasProveedore tabCpFacturasProveedore) {
+		getTabCpFacturasProveedores().add(tabCpFacturasProveedore);
+		tabCpFacturasProveedore.setTabCpProveedore(this);
+
+		return tabCpFacturasProveedore;
+	}
+
+	public TabCpFacturasProveedore removeTabCpFacturasProveedore(TabCpFacturasProveedore tabCpFacturasProveedore) {
+		getTabCpFacturasProveedores().remove(tabCpFacturasProveedore);
+		tabCpFacturasProveedore.setTabCpProveedore(null);
+
+		return tabCpFacturasProveedore;
+	}
+
+}

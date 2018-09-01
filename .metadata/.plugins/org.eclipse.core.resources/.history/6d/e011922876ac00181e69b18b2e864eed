@@ -1,0 +1,92 @@
+package salycanela.model.manager;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import salycanela.model.entities.TabCpFacturasProveedore;
+import salycanela.model.entities.TabCpDetalleFacturasProveed;
+import salycanela.model.entities.TabCpModosPago;
+import salycanela.model.entities.TabCpProveedore;
+import salycanela.model.entities.TabInvProducto;
+import salycanela.model.entities.TabVtsDetallePedido;
+import salycanela.model.entities.TabVtsPedido;
+
+@Stateless
+@LocalBean
+public class ManagerFacturasProveedor {
+
+	@PersistenceContext(unitName = "restaurante_salycanelaDS")
+	private EntityManager em;
+
+	public ManagerFacturasProveedor() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public TabCpFacturasProveedore crearFacturaTmp(String cpidfacturaprov, String cpidproveedor, Integer cpidmodopago,
+			Date cpfechaemisionfacturaprov, Date cpfechacaducidadfacprov, String cpobservacionesfacturaprov) {
+		TabCpFacturasProveedore facturaTmp = new TabCpFacturasProveedore();
+
+		TabCpProveedore proveedor = em.find(TabCpProveedore.class, cpidproveedor);
+		TabCpModosPago pago = em.find(TabCpModosPago.class, cpidmodopago);
+		facturaTmp.setCpidfacturaprov(cpidfacturaprov);
+		facturaTmp.setTabCpProveedore(proveedor);
+		facturaTmp.setTabCpModosPago(pago);
+		facturaTmp.setCpfechaemisionfacturaprov(cpfechaemisionfacturaprov);
+		facturaTmp.setCpfechacaducidadfacprov(cpfechacaducidadfacprov);
+		facturaTmp.setCpobservacionesfacturaprov(cpobservacionesfacturaprov);
+		facturaTmp.setCpestadofacturaprov(true);
+		facturaTmp.setTabCpDetalleFacturasProveeds(new ArrayList<TabCpDetalleFacturasProveed>());
+
+		return facturaTmp;
+	}
+
+	public void agregarDetalleFacturaTmp(TabCpFacturasProveedore facturaTmp, Integer invidprod,
+			Integer cpcantidaddetallefacprov, BigDecimal cpunitariodetallefacprov, BigDecimal cpdescuentodetallefacprov,
+			BigDecimal cpivadetallefacprov) throws Exception {
+		double valorTotal = 0;
+
+		// sentencias de error de ingreso
+		if (facturaTmp == null)
+			throw new Exception("Error primero debe crear una nueva Factura.");
+		if (invidprod == null || invidprod.intValue() < 0)
+			throw new Exception("Error debe especificar el codigo del producto.");
+		if (cpcantidaddetallefacprov == null || cpcantidaddetallefacprov.intValue() <= 0)
+			throw new Exception("Error debe especificar la cantidad del producto.");
+
+		// buscamos el producto:
+		TabInvProducto p = em.find(TabInvProducto.class, invidprod);
+		// creamos un nuevo detalle y llenamos sus propiedades:
+		TabCpDetalleFacturasProveed d = new TabCpDetalleFacturasProveed();
+		d.setTabInvProducto(p);
+		d.setCpcantidaddetallefacprov(cpcantidaddetallefacprov);
+		d.setCpunitariodetallefacprov(cpunitariodetallefacprov);
+		d.setCpdescuentodetallefacprov(cpdescuentodetallefacprov);
+		d.setCpivadetallefacprov(cpivadetallefacprov);
+
+		//valorTotal = (cpcantidaddetallefacprov.doubleValue() * cpunitariodetallefacprov.doubleValue())
+		//		+ cpivadetallefacprov.doubleValue() - cpdescuentodetallefacprov.doubleValue();
+		valorTotal=cpcantidaddetallefacprov.doubleValue() * cpunitariodetallefacprov.doubleValue();
+		d.setCptotaldetallefacprov(new BigDecimal(valorTotal));
+
+		facturaTmp.getTabCpDetalleFacturasProveeds().add(d);
+		// verificamos los campos calculados:
+
+		calcularFacturaTmp(facturaTmp);
+	}
+
+	private void calcularFacturaTmp(TabCpFacturasProveedore facturaTmp) {
+		double sumaTotales = 0;
+		for (TabCpDetalleFacturasProveed det : facturaTmp.getTabCpDetalleFacturasProveeds()) {
+			sumaTotales += det.getCantidaddp().doubleValue() * det.getValorunitariodp().doubleValue();
+		}
+
+		pedidoTmp.setValorpedido(new BigDecimal(sumaTotales));
+	}
+
+}

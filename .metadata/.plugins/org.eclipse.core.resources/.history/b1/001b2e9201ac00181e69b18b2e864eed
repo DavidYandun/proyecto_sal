@@ -1,0 +1,72 @@
+package salycanela.model.entities;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.List;
+
+
+/**
+ * The persistent class for the tab_cp_medidas database table.
+ * 
+ */
+@Entity
+@Table(name="tab_cp_medidas")
+@NamedQuery(name="TabCpMedida.findAll", query="SELECT t FROM TabCpMedida t")
+public class TabCpMedida implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@SequenceGenerator(name="TAB_CP_MEDIDAS_CPIDMEDIDA_GENERATOR", sequenceName="TAB_CP_MEDIDAS_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TAB_CP_MEDIDAS_CPIDMEDIDA_GENERATOR")
+	@Column(unique=true, nullable=false)
+	private Integer cpidmedida;
+
+	@Column(length=50)
+	private String cpnombremedida;
+
+	//bi-directional many-to-one association to TabCpDetalleFacturasProveed
+	@OneToMany(mappedBy="tabCpMedida")
+	private List<TabCpDetalleFacturasProveed> tabCpDetalleFacturasProveeds;
+
+	public TabCpMedida() {
+	}
+
+	public Integer getCpidmedida() {
+		return this.cpidmedida;
+	}
+
+	public void setCpidmedida(Integer cpidmedida) {
+		this.cpidmedida = cpidmedida;
+	}
+
+	public String getCpnombremedida() {
+		return this.cpnombremedida;
+	}
+
+	public void setCpnombremedida(String cpnombremedida) {
+		this.cpnombremedida = cpnombremedida;
+	}
+
+	public List<TabCpDetalleFacturasProveed> getTabCpDetalleFacturasProveeds() {
+		return this.tabCpDetalleFacturasProveeds;
+	}
+
+	public void setTabCpDetalleFacturasProveeds(List<TabCpDetalleFacturasProveed> tabCpDetalleFacturasProveeds) {
+		this.tabCpDetalleFacturasProveeds = tabCpDetalleFacturasProveeds;
+	}
+
+	public TabCpDetalleFacturasProveed addTabCpDetalleFacturasProveed(TabCpDetalleFacturasProveed tabCpDetalleFacturasProveed) {
+		getTabCpDetalleFacturasProveeds().add(tabCpDetalleFacturasProveed);
+		tabCpDetalleFacturasProveed.setTabCpMedida(this);
+
+		return tabCpDetalleFacturasProveed;
+	}
+
+	public TabCpDetalleFacturasProveed removeTabCpDetalleFacturasProveed(TabCpDetalleFacturasProveed tabCpDetalleFacturasProveed) {
+		getTabCpDetalleFacturasProveeds().remove(tabCpDetalleFacturasProveed);
+		tabCpDetalleFacturasProveed.setTabCpMedida(null);
+
+		return tabCpDetalleFacturasProveed;
+	}
+
+}

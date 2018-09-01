@@ -1,0 +1,75 @@
+package salycanela.model.manager;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import salycanela.model.entities.TabCpProveedore;
+import salycanela.model.entities.TabVtsCaja;
+
+/**
+ * Session Bean implementation class ManagerProveedores
+ */
+@Stateless
+@LocalBean
+public class ManagerProveedores {
+	@PersistenceContext(unitName = "restaurante_salycanelaDS")
+	private EntityManager em;
+
+	public ManagerProveedores() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public void agregarProveedor(String cpidproveedor, String cpnombreproveedor, String cptelefonoproveedor,
+			String cpcelularproveedor, String cpdireccionproveedor, String cpcorreoproveedor,
+			String cpresponsableproveedor, Boolean cpestadoproveedor) throws Exception {
+		if (cpidproveedor == null || cpidproveedor.length() == 0)
+			throw new Exception("Debe especificar la ID del proveedor.");
+		TabCpProveedore p = new TabCpProveedore();
+		p.setCpidproveedor(cpidproveedor);
+		p.setCpnombreproveedor(cpnombreproveedor);
+		p.setCptelefonoproveedor(cptelefonoproveedor);
+		p.setCpcelularproveedor(cpcelularproveedor);
+		p.setCpdireccionproveedor(cpdireccionproveedor);
+		p.setCpcorreoproveedor(cpcorreoproveedor);
+		p.setCpresponsableproveedor(cpresponsableproveedor);
+		p.setCpestadoproveedor(cpestadoproveedor);
+		em.persist(p);
+	}
+
+	public TabCpProveedore findProveedorById(String cpidproveedor) throws Exception {
+		TabCpProveedore p = em.find(TabCpProveedore.class, cpidproveedor);
+		return p;
+	}
+
+	public void editarProveedor(String cpidproveedor, String cpnombreproveedor, String cptelefonoproveedor,
+	String cpcelularproveedor, String cpdireccionproveedor, String cpcorreoproveedor,
+	String cpresponsableproveedor, Boolean cpestadoproveedor) throws Exception {
+		TabCpProveedore p = findProveedorById(cpidproveedor);
+		if (p == null)
+			throw new Exception("No existe el proveedor especificado.");
+		p.setCpnombreproveedor(cpnombreproveedor);
+		p.setCptelefonoproveedor(cptelefonoproveedor);
+		p.setCpcelularproveedor(cpcelularproveedor);
+		p.setCpdireccionproveedor(cpdireccionproveedor);
+		p.setCpcorreoproveedor(cpcorreoproveedor);
+		p.setCpresponsableproveedor(cpresponsableproveedor);
+		p.setCpestadoproveedor(cpestadoproveedor);
+		em.merge(p);
+	}
+
+	public List<TabCpProveedore> findAllProveedores() {
+		Query q;
+		List<TabCpProveedore> listado;
+		String sentenciaSQL;
+		sentenciaSQL = "SELECT p FROM TabCpProveedore p ORDER BY p.cpnombreproveedor";
+		q = em.createQuery(sentenciaSQL);
+		listado = q.getResultList();
+		return listado;
+	}
+}
